@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubjectController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,5 +21,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/test', function () {
     return 'Welcome, Admin! This pade is protected.';
 })->middleware(['auth', 'role:admin']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('subjects', SubjectController::class);
+});
 
 require __DIR__.'/auth.php';
