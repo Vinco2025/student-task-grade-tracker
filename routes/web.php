@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,7 @@ Route::get('/admin/test', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('subjects', SubjectController::class);
+    Route::resource('subjects.tasks', TaskController::class)->shallow();
 });
 
 require __DIR__.'/auth.php';

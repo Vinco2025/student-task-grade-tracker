@@ -13,10 +13,20 @@
                     Teacher: <strong>{{ $subject->teacher->name ?? 'Unassigned' }}</strong>
                 </p>
 
-                <h3 class="text-lg font-medium mb-2">Tasks</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-medium">Tasks</h3>
+                    <a href="{{ route('subjects.tasks.create', $subject) }}" class="text-sm text-indigo-600 hover:underline">
+                        + Add Task
+                    </a>
+                </div>
                 <ul class="mb-6 list-disc list-inside">
                     @forelse ($subject->tasks as $task)
-                        <li>{{ $task->title }} — Due: {{ $task->due_date ?? 'No due date' }}</li>
+                        <li>
+                            <a href="{{ route('tasks.show', $task) }}" class="text-indigo-600 hover:underline">
+                                {{ $task->title }}
+                            </a>
+                            — Due: {{ $task->due_date ?? 'No due date' }}
+                        </li>
                     @empty
                         <li class="text-gray-500">No tasks yet.</li>
                     @endforelse
