@@ -35,7 +35,12 @@ class SubjectController extends Controller
     public function show(Subject $subject)
     {
         $subject->load('tasks', 'enrollments.student');
-        return view('subjects.show', compact('subject'));
+        $enrolledIds = $subject->enrollments->pluck('student_id');
+        $students = \App\Models\User::where('role', 'student')
+            ->whereNotIn('id', $enrolledIds)
+            ->get();
+
+        return view('subjects.show', compact('subject', 'students'));
     }
 
     public function edit(Subject $subject)
