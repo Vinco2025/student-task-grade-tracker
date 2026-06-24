@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\EnrollmentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/subjects/{subject}/enrollments', [EnrollmentController::class, 'store'])->name('enrollments.store');
+    Route::delete('/enrollments/{enrollment}/', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
 });
 
 Route::get('/admin/test', function () {
