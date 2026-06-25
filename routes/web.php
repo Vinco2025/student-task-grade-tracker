@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\GradeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +30,11 @@ Route::get('/admin/test', function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('subjects', SubjectController::class);
     Route::resource('subjects.tasks', TaskController::class)->shallow();
+});
+
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/tasks/{task)/grades', [GradeController::class, 'edit'])->name('grades.edit');
+    Route::post('/tasks/{task)/grades', [GradeController::class, 'update'])->name('grades.update');
 });
 
 require __DIR__.'/auth.php';
