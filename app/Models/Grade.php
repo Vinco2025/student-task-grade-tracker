@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
 {
+    protected $fillable = ['task_id', 'student_id', 'score'];
+    
     public function task()
     {
         return $this->belongsTo(Task::class);
