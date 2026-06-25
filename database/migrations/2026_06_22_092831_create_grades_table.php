@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->decimal('score', 5, 2)->nullable();
             $table->timestamps();
+
+            $table->unique(['task_id', 'student_id']);
         });
     }
 
