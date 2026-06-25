@@ -34,6 +34,9 @@
                                 {{ $task->title }}
                             </a>
                             — Due: {{ $task->due_date ?? 'No due date' }}
+                            <a href="{{ route('grades.edit', $task) }}" class="ml-2 text-sm text-green-600 hover:underline">
+                                Grade
+                            </a>
                         </li>
                     @empty
                         <li class="text-gray-500">No tasks yet.</li>
