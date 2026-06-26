@@ -6,14 +6,13 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,8 +32,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/tasks/{task)/grades', [GradeController::class, 'edit'])->name('grades.edit');
-    Route::post('/tasks/{task)/grades', [GradeController::class, 'update'])->name('grades.update');
+    Route::get('/tasks/{task}/grades', [GradeController::class, 'edit'])->name('grades.edit');
+    Route::post('/tasks/{task}/grades', [GradeController::class, 'update'])->name('grades.update');
 });
 
 require __DIR__.'/auth.php';
