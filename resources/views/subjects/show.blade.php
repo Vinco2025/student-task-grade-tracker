@@ -43,15 +43,6 @@
                     @endforelse
                 </ul>
 
-                <h3 class="text-lg font-medium mb-2">Enrolled Students</h3>
-                <ul class="mb-6 list-disc list-inside">
-                    @forelse ($subject->enrollments as $enrollment)
-                        <li>{{ $enrollment->student->name }}</li>
-                    @empty
-                        <li class="text-gray-500">No students enrolled yet.</li>
-                    @endforelse
-                </ul>
-
                 <div class="mt-6">
                     <h3 class="text-lg font-semibold mb-2">Enrolled Students</h3>
 
