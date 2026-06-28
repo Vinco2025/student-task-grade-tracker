@@ -26,11 +26,13 @@
                                 @foreach ($subject->tasks->sortBy('due_date') as $task)
                                     <li class="py-2 flex justify-between items-center">
                                         <div>
-                                            <p class="font-medium">{{ $task->title }}</p>
+                                            <a href="{{ route('tasks.submissions.edit', $task) }}" class="font-medium text-indigo-600 hover:underline">
+                                                {{ $task->title }}
+                                            </a>
                                             <p class="text-sm text-gray-500">{{ $task->description }}</p>
                                         </div>
-                                        <span class="text-sm text-gray-600">
-                                            Due: {{ $task->due_date ?? 'No due date' }}
+                                        <span class="text-sm {{ $task->due_date && now()->startOfDay()->gt($task->due_date) ? 'text-red-600 font-medium' : 'text-gray-600' }}">
+                                            Due: {{ $task->due_date?->format('M d, Y') ?? 'No due date' }}
                                         </span>
                                     </li>
                                 @endforeach
