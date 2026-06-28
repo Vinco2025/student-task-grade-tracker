@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SubjectController extends Controller
 {
@@ -15,19 +17,20 @@ class SubjectController extends Controller
 
     public function create()
     {
-        return view('subjects.create');
+        $teachers = User::where('role', 'teacher')->get();
+        return view('subjects.create', compact('teachers'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'teacher_id' => ['required', Rule::exists('users', 'id')->where('role', 'teacher')],
+        ], [
+            'teacher_id.required' => 'Please pick a teacher.',
         ]);
 
-        Subject::create([
-            'name' => $validated['name'],
-            'teacher_id' => auth()->id(),
-        ]);
+        Subject::create($validated);
 
         return redirect()->route('subjects.index')->with('success', 'Subject created successfully.');
     }
@@ -36,7 +39,7 @@ class SubjectController extends Controller
     {
         $subject->load('tasks', 'enrollments.student');
         $enrolledIds = $subject->enrollments->pluck('student_id');
-        $students = \App\Models\User::where('role', 'student')
+        $students = User::where('role', 'student')
             ->whereNotIn('id', $enrolledIds)
             ->get();
 
@@ -45,13 +48,17 @@ class SubjectController extends Controller
 
     public function edit(Subject $subject)
     {
-        return view('subjects.edit', compact('subject'));
+        $teachers = User::where('role', 'teacher')->get();
+        return view('subjects.edit', compact('subject', 'teachers'));
     }
 
     public function update(Request $request, Subject $subject)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'teacher_id' => ['required', Rule::exists('users', 'id')->where('role', 'teacher')],
+        ], [
+            'teacher_id.required' => 'Please pick a teacher.',
         ]);
 
         $subject->update($validated);
