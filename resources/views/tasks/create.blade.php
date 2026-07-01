@@ -41,8 +41,8 @@
                     </div>
 
                     <div class="flex justify-end gap-2">
-                        <a href="{{ route('subjects.show', $subject) }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
-                            Cancel
+                        <a href="{{ route('dashboard', $subject) }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                            Back to Dashboard
                         </a>
                         <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
                             Save Task
