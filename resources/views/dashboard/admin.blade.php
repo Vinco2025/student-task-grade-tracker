@@ -8,26 +8,38 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
+            <x-flash-messages />
+
+            {{-- Stat Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white shadow-sm rounded-lg p-6 text-center">
+                <a href="{{ route('subjects.index') }}" class="bg-white shadow-sm rounded-lg p-6 text-center hover:shadow-md transition">
                     <p class="text-3xl font-bold text-indigo-600">{{ $totalStudents }}</p>
                     <p class="text-sm text-gray-500 mt-1">Students</p>
-                </div>
-                <div class="bg-white shadow-sm rounded-lg p-6 text-center">
+                </a>
+                <a href="{{ route('subjects.index') }}" class="bg-white shadow-sm rounded-lg p-6 text-center hover:shadow-md transition">
                     <p class="text-3xl font-bold text-indigo-600">{{ $totalTeachers }}</p>
                     <p class="text-sm text-gray-500 mt-1">Teachers</p>
-                </div>
-                <div class="bg-white shadow-sm rounded-lg p-6 text-center">
+                </a>
+                <a href="{{ route('subjects.index') }}" class="bg-white shadow-sm rounded-lg p-6 text-center hover:shadow-md transition">
                     <p class="text-3xl font-bold text-indigo-600">{{ $totalSubjects }}</p>
                     <p class="text-sm text-gray-500 mt-1">Subjects</p>
-                </div>
+                </a>
             </div>
 
+            {{-- Subjects Table --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold mb-4">All Subjects</h3>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">All Subjects</h3>
+                    <a href="{{ route('subjects.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">
+                        + New Subject
+                    </a>
+                </div>
 
                 @if ($subjects->isEmpty())
-                    <p class="text-gray-500">No subjects created yet.</p>
+                    <p class="text-gray-500">
+                        No subjects created yet.
+                        <a href="{{ route('subjects.create') }}" class="text-indigo-600 hover:underline">Create one</a>.
+                    </p>
                 @else
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -41,15 +53,24 @@
                         </thead>
                         <tbody>
                             @foreach ($subjects as $subject)
-                                <tr class="border-b">
-                                    <td class="py-2 px-3">{{ $subject->name }}</td>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="py-2 px-3">
+                                        <a href="{{ route('subjects.show', $subject) }}" class="text-indigo-600 hover:underline">
+                                            {{ $subject->name }}
+                                        </a>
+                                    </td>
                                     <td class="py-2 px-3">{{ $subject->teacher->name ?? 'Unassigned' }}</td>
                                     <td class="py-2 px-3">{{ $subject->tasks->count() }}</td>
                                     <td class="py-2 px-3">{{ $subject->enrollments->count() }}</td>
                                     <td class="py-2 px-3">
-                                        <a href="{{ route('subjects.show', $subject) }}" class="text-indigo-600 hover:underline text-sm">
-                                            View
+                                        <a href="{{ route('subjects.edit', $subject) }}" class="text-indigo-600 hover:underline text-sm mr-3">
+                                            Edit
                                         </a>
+                                        <form action="{{ route('subjects.destroy', $subject) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline text-sm">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
