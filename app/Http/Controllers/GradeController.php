@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\Grade;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -17,12 +18,13 @@ class GradeController extends Controller
 
         // get att students enrolled in this task's subject
         $students = $task->subject->enrollments()->with('student')->get()->pluck('student');
-
         $existingGrades = $task->grades()->get()->keyBy('student_id');
+        $submissions = Submission::where('task_id', $task->id)
+            ->get()
+            ->keyBy('student_id');
 
-        return view('grades.edit', compact('task', 'students', 'existingGrades'));
+        return view('grades.edit', compact('task', 'students', 'existingGrades', 'submissions'));
     }
-
 
     public function update(Request $request, Task $task)
     {
@@ -45,6 +47,6 @@ class GradeController extends Controller
         }
 
         return redirect()->route('subjects.show', $task->subject_id)
-            ->with('success', 'Grades updated successfully.');
+            ->with('success', 'Grades saved successfully.');
     }
 }
