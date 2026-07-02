@@ -36,8 +36,8 @@ class SubmissionController extends Controller
         }
 
         $validated = $request->validate([
-            'content' => 'nullable|string',
-            'file' => 'nullable|file|max:10240',
+            'content' => 'required_without:file',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
         ]);
 
         $data = [
