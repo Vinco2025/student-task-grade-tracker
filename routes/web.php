@@ -8,6 +8,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,11 +30,17 @@ Route::get('/admin/test', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('subjects', SubjectController::class)->except(['index', 'show']);
+    Route::get('/admin/students', [UserController::class, 'students'])->name('users.students');
+    Route::get('/admin/teachers', [UserController::class, 'teachers'])->name('users.teachers');
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('subjects', SubjectController::class)->only(['index', 'show']);
-    Route::resource('subjects.tasks', TaskController::class)->shallow();
+    Route::resource('subjects.tasks', TaskController::class)->shallow()->only(['index', 'show']);
+});
+
+Route::middleware(['auth', 'role:teacher,admin'])->group(function () {
+    Route::resource('subjects.tasks', TaskController::class)->shallow()->except(['index', 'show']);
 });
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
