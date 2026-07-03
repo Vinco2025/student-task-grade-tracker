@@ -11,8 +11,17 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                ink: '#1E2A45',
+                paper: '#F7F6F2',
+                gold: '#C08A2E',
+                slate:   '#5B6472',
+                approved:'#2F7D5E',
+                marked:  '#B3441E'
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                serif: ['Fraunces', ...defaultTheme.fontFamily.serif],
             },
         },
     },
