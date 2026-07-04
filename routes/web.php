@@ -20,8 +20,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::post('/subjects/{subject}/enroll-request', [EnrollmentController::class, 'request'])
+    ->middleware(['auth', 'role:student'])
+    ->name('enrollments.request');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/subjects/{subject}/enrollments', [EnrollmentController::class, 'store'])->name('enrollments.store');
-    Route::delete('/enrollments/{enrollment}/', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
+    Route::patch('/enrollments/{enrollment}/approve', [EnrollmentController::class, 'approve'])->name('enrollments.approve');
+    Route::patch('/enrollments/{enrollment}/reject', [EnrollmentController::class, 'reject'])->name('enrollments.reject');
+    Route::delete('/enrollments/{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
 });
 
 Route::get('/admin/test', function () {
