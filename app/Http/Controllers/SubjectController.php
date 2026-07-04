@@ -37,13 +37,26 @@ class SubjectController extends Controller
 
     public function show(Subject $subject)
     {
-        $subject->load('tasks', 'enrollments.student');
-        $enrolledIds = $subject->enrollments->pluck('student_id');
-        $students = User::where('role', 'student')
+        $subject->load(['teacher', 'tasks', 'enrollments.student']);
+
+        $enrolledIds = $subject->enrollments
+            ->whereIn('status', ['approved', 'pending'])
+            ->pluck('student_id');
+
+        $students = \App\Models\User::where('role', 'student')
             ->whereNotIn('id', $enrolledIds)
             ->get();
 
-        return view('subjects.show', compact('subject', 'students'));
+        $pendingEnrollments = $subject->enrollments->where('status', 'pending');
+
+        $approvedEnrollments = $subject->enrollments->where('status', 'approved');
+
+        return view('subjects.show', compact(
+            'subject',
+            'students',
+            'pendingEnrollments',
+            'approvedEnrollments'
+        ));
     }
 
     public function edit(Subject $subject)
