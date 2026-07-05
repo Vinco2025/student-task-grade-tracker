@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-[#1E2A45] leading-tight" style="font-family: 'Fraunces', serif;">
+        <h2 class="font-serif font-bold text-2xl text-ink leading-tight">
             {{ __('Admin Overview') }}
         </h2>
     </x-slot>
@@ -12,42 +12,42 @@
 
             {{-- Stat Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <a href="{{ route('users.students') }}" class="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-[#C08A2E] hover:shadow-sm transition">
-                    <p class="text-4xl font-bold text-[#C08A2E]" style="font-family: 'Fraunces', serif;">{{ $totalStudents }}</p>
-                    <p class="text-sm text-[#5B6472] mt-1 uppercase tracking-wide">Students</p>
+                <a href="{{ route('users.students') }}" class="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-gold hover:shadow-sm transition">
+                    <p class="text-4xl font-bold text-gold" style="font-family: 'Fraunces', serif;">{{ $totalStudents }}</p>
+                    <p class="text-sm text-slate mt-1 uppercase tracking-wide">Students</p>
                 </a>
-                <a href="{{ route('users.teachers') }}" class="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-[#C08A2E] hover:shadow-sm transition">
-                    <p class="text-4xl font-bold text-[#C08A2E]" style="font-family: 'Fraunces', serif;">{{ $totalTeachers }}</p>
-                    <p class="text-sm text-[#5B6472] mt-1 uppercase tracking-wide">Teachers</p>
+                <a href="{{ route('users.teachers') }}" class="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-gold hover:shadow-sm transition">
+                    <p class="text-4xl font-bold text-gold" style="font-family: 'Fraunces', serif;">{{ $totalTeachers }}</p>
+                    <p class="text-sm text-slate mt-1 uppercase tracking-wide">Teachers</p>
                 </a>
-                <a href="{{ route('subjects.index') }}" class="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-[#C08A2E] hover:shadow-sm transition">
-                    <p class="text-4xl font-bold text-[#C08A2E]" style="font-family: 'Fraunces', serif;">{{ $totalSubjects }}</p>
-                    <p class="text-sm text-[#5B6472] mt-1 uppercase tracking-wide">Subjects</p>
+                <a href="{{ route('subjects.index') }}" class="bg-white border border-gray-200 rounded-lg p-6 text-center hover:border-gold hover:shadow-sm transition">
+                    <p class="text-4xl font-bold text-gold" style="font-family: 'Fraunces', serif;">{{ $totalSubjects }}</p>
+                    <p class="text-sm text-slate mt-1 uppercase tracking-wide">Subjects</p>
                 </a>
             </div>
 
             {{-- Subjects Table --}}
             <div class="bg-white border border-gray-200 rounded-lg p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-[#1E2A45]" style="font-family: 'Fraunces', serif;">All Subjects</h3>
-                    <a href="{{ route('subjects.create') }}" class="px-4 py-2 bg-[#1E2A45] text-white rounded hover:bg-[#2A3B5F] text-sm transition">
+                    <h3 class="text-lg font-semibold text-ink" style="font-family: 'Fraunces', serif;">All Subjects</h3>
+                    <a href="{{ route('subjects.create') }}" class="px-4 py-2 bg-ink text-white rounded hover:bg-[#2A3B5F] text-sm transition">
                         + New Subject
                     </a>
                 </div>
 
                 @if ($subjects->isEmpty())
-                    <p class="text-[#5B6472]">
+                    <p class="text-slate">
                         No subjects created yet.
-                        <a href="{{ route('subjects.create') }}" class="text-[#C08A2E] hover:underline">Create one</a>.
+                        <a href="{{ route('subjects.create') }}" class="text-gold hover:underline">Create one</a>.
                     </p>
                 @else
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b-2 border-[#1E2A45]">
-                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-[#5B6472]">Subject</th>
-                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-[#5B6472]">Teacher</th>
-                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-[#5B6472]">Tasks</th>
-                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-[#5B6472]">Students Enrolled</th>
+                            <tr class="border-b-2 border-ink">
+                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-slate">Subject</th>
+                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-slate">Teacher</th>
+                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-slate">Tasks</th>
+                                <th class="py-2 px-3 text-xs uppercase tracking-wide text-slate">Students Enrolled</th>
                                 <th class="py-2 px-3"></th>
                             </tr>
                         </thead>
@@ -55,15 +55,15 @@
                             @foreach ($subjects as $subject)
                                 <tr class="border-b border-gray-100 odd:bg-[#FAFAF8] hover:bg-[#F7F1E3] transition">
                                     <td class="py-2 px-3">
-                                        <a href="{{ route('subjects.show', $subject) }}" class="text-[#1E2A45] font-medium hover:text-[#C08A2E] hover:underline">
+                                        <a href="{{ route('subjects.show', $subject) }}" class="text-ink font-medium hover:text-gold hover:underline">
                                             {{ $subject->name }}
                                         </a>
                                     </td>
-                                    <td class="py-2 px-3 text-[#5B6472]">{{ $subject->teacher->name ?? 'Unassigned' }}</td>
-                                    <td class="py-2 px-3 text-[#5B6472]">{{ $subject->tasks->count() }}</td>
-                                    <td class="py-2 px-3 text-[#5B6472]">{{ $subject->enrollments->count() }}</td>
+                                    <td class="py-2 px-3 text-slate">{{ $subject->teacher->name ?? 'Unassigned' }}</td>
+                                    <td class="py-2 px-3 text-slate">{{ $subject->tasks->count() }}</td>
+                                    <td class="py-2 px-3 text-slate">{{ $subject->enrollments->where('status','approved')->count() }}</td>
                                     <td class="py-2 px-3">
-                                        <a href="{{ route('subjects.edit', $subject) }}" class="text-[#1E2A45] hover:text-[#C08A2E] hover:underline text-sm mr-3">
+                                        <a href="{{ route('subjects.edit', $subject) }}" class="text-ink hover:text-gold hover:underline text-sm mr-3">
                                             Edit
                                         </a>
                                         <form action="{{ route('subjects.destroy', $subject) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
