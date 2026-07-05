@@ -27,9 +27,18 @@ class DashboardController extends Controller
 
     private function studentDashboard($user)
     {
-        $enrollments = $user->enrollments()->with('subject.tasks')->get();
+        $enrollments = $user->enrollments()
+            ->with('subject.tasks')
+            ->whereIn('status', ['approved', 'pending'])  
+            ->get();
 
-        return view('dashboard.student', compact('enrollments'));
+        $enrolledSubjectIds = $user->enrollments()->pluck('subject_id'); 
+
+        $availableSubjects = Subject::with('teacher')
+            ->whereNotIn('id', $enrolledSubjectIds)
+            ->get();
+
+        return view('dashboard.student', compact('enrollments', 'availableSubjects'));
     }
 
     private function teacherDashboard($user)
