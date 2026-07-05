@@ -14,7 +14,7 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-medium">All Subjects</h3>
                     @if (auth()->user()->role === 'admin')
-                        <a href="{{ route('subjects.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                        <a href="{{ route('subjects.create') }}" class="px-4 py-2 bg-[#1E2A45] text-white rounded hover:bg-[#1E2A45]">
                             + New Subject
                         </a>
                     @endif
@@ -32,14 +32,14 @@
                         @forelse ($subjects as $subject)
                             <tr class="border-b">
                                 <td class="py-2">
-                                    <a href="{{ route('subjects.show', $subject) }}" class="text-indigo-600 hover:underline">
+                                    <a href="{{ route('subjects.show', $subject) }}" class="text-[#1E2A45] hover:text-[#C08A2E] hover:underline">
                                         {{ $subject->name }}
                                     </a>
                                 </td>
-                                <td class="py-2">{{ $subject->teacher->name ?? 'Unassigned' }}</td>
+                                <td class="py-2 text-[#5B6472]">{{ $subject->teacher->name ?? 'Unassigned' }}</td>
                                 <td class="py-2">
                                     @if (auth()->user()->role === 'admin')
-                                        <a href="{{ route('subjects.edit', $subject) }}" class="text-indigo-600 hover:underline">Edit</a>
+                                        <a href="{{ route('subjects.edit', $subject) }}" class="text-[#1E2A45] hover:text-[#C08A2E] hover:underline">Edit</a>
                                         <form action="{{ route('subjects.destroy', $subject) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
                                             @csrf
                                             @method('DELETE')

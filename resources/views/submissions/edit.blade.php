@@ -25,6 +25,9 @@
                     <div class="p-4 bg-red-100 text-red-700 rounded mb-4">
                         The deadline for this task has passed. Submissions are closed.
                     </div>
+                    <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-[#1E2A45] text-white rounded hover:bg-[#1E2A45]">
+                                ← Back to Dashboard
+                    </a>
 
                     @if ($submission)
                         <div class="mt-4">

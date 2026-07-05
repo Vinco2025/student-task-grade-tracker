@@ -31,10 +31,10 @@
                     </div>
 
                     <div class="flex justify-end gap-2">
-                        <a href="{{ route('subjects.index') }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                        <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
                             Cancel
                         </a>
-                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                        <button type="submit" class="px-4 py-2 bg-[#1E2A45] text-white rounded hover:bg-[#1E2A45]">
                             Update Subject
                         </button>
                     </div>

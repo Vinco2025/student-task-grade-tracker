@@ -1,90 +1,162 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-serif font-bold text-2xl text-ink leading-tight">
             {{ $subject->name }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-                @if (session('success'))
-                    <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">{{ session('success') }}</div>
-                @endif
+            <x-flash-messages />
 
-                @if (session('error'))
-                    <div class="bg-red-100 text-red-800 px-4 py-2 rounded mb-4">{{ session('error') }}</div>
-                @endif
+            <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-8">
 
-                <p class="mb-4 text-gray-600">
-                    Teacher: <strong>{{ $subject->teacher->name ?? 'Unassigned' }}</strong>
+                {{-- Teacher --}}
+                <p class="text-slate text-sm uppercase tracking-wide">
+                    Teacher: <span class="text-ink font-semibold normal-case text-base">{{ $subject->teacher->name ?? 'Unassigned' }}</span>
                 </p>
 
-                <div class="flex justify-between items-center mb-2">
-                    <h3 class="text-lg font-medium">Tasks</h3>
-                    <a href="{{ route('subjects.tasks.create', $subject) }}" class="text-sm text-indigo-600 hover:underline">
-                        + Add Task
-                    </a>
-                </div>
-                <ul class="mb-6 list-disc list-inside">
+                {{-- Tasks --}}
+                <div>
+                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-gold/40">
+                        <h3 class="font-serif font-semibold text-lg text-ink">Tasks</h3>
+                        @if(auth()->user()->role === 'teacher' || auth()->user()->role === 'admin')
+                            <a href="{{ route('subjects.tasks.create', $subject) }}"
+                               class="text-sm text-gold hover:underline">+ Add Task</a>
+                        @endif
+                    </div>
+
                     @forelse ($subject->tasks as $task)
-                        <li>
-                            <a href="{{ route('tasks.show', $task) }}" class="text-indigo-600 hover:underline">
-                                {{ $task->title }}
-                            </a>
-                            — Due: {{ $task->due_date ?? 'No due date' }}
-                            <a href="{{ route('grades.edit', $task) }}" class="ml-2 text-sm text-green-600 hover:underline">
-                                Grade
-                            </a>
-                        </li>
+                        <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                            <div class="flex items-center gap-3">
+                                <span class="w-0.5 h-5 bg-gold rounded-full inline-block"></span>
+                                <a href="{{ route('tasks.show', $task) }}"
+                                   class="text-ink font-medium hover:text-gold transition">
+                                    {{ $task->title }}
+                                </a>
+                                <span class="text-slate text-sm">— Due: {{ $task->due_date ?? 'No due date' }}</span>
+                            </div>
+                            @if(auth()->user()->role === 'teacher' || auth()->user()->role === 'admin')
+                                <a href="{{ route('grades.edit', $task) }}"
+                                   class="text-sm text-approved hover:underline">Grade</a>
+                            @endif
+                        </div>
                     @empty
-                        <li class="text-gray-500">No tasks yet.</li>
+                        <p class="text-slate text-sm">No tasks yet.</p>
                     @endforelse
-                </ul>
+                </div>
 
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold mb-2">Enrolled Students</h3>
+                {{-- Pending Requests (admin only) --}}
+                @if(auth()->user()->role === 'admin' && $pendingEnrollments->isNotEmpty())
+                    <div>
+                        <div class="flex items-center mb-3 pb-2 border-b border-gold/40">
+                            <h3 class="font-serif font-semibold text-lg text-ink">Pending Requests</h3>
+                            <span class="ml-2 text-xs bg-gold/10 text-gold border border-gold/30 rounded-full px-2 py-0.5">
+                                {{ $pendingEnrollments->count() }}
+                            </span>
+                        </div>
+                        <ul class="divide-y divide-gray-100">
+                            @foreach ($pendingEnrollments as $enrollment)
+                                <li class="flex items-center justify-between py-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-0.5 h-5 bg-gold/40 rounded-full inline-block"></span>
+                                        <span class="text-ink font-medium">{{ $enrollment->student->name }}</span>
+                                        <span class="text-xs text-slate">requested enrollment</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <form action="{{ route('enrollments.approve', $enrollment) }}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button type="submit" class="text-sm text-approved hover:underline">Approve</button>
+                                        </form>
+                                        <form action="{{ route('enrollments.reject', $enrollment) }}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button type="submit" class="text-sm text-marked hover:underline">Reject</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                    @if ($subject->enrollments->isEmpty())
-                        <p class="text-gray-500">No students enrolled yet.</p>
+                {{-- Enrolled Students --}}
+                <div>
+                    <div class="flex justify-between items-center mb-3 pb-2 border-b border-gold/40">
+                        <h3 class="font-serif font-semibold text-lg text-ink">Enrolled Students</h3>
+                    </div>
+
+                    @if($approvedEnrollments->isEmpty())
+                        <p class="text-slate text-sm">No students enrolled yet.</p>
                     @else
-                        <ul class="mb-4">
-                            @foreach ($subject->enrollments as $enrollment)
-                                <li class="flex items-center justify-between border-b py-2">
-                                    <span>{{ $enrollment->student->name }}</span>
-
-                                    <form action="{{ route('enrollments.destroy', $enrollment) }}" method="POST" onsubmit="return confirm('Remove this student?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:underline">Remove</button>
-                                    </form>
+                        <ul class="divide-y divide-gray-100">
+                            @foreach ($approvedEnrollments as $enrollment)
+                                <li class="flex items-center justify-between py-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-0.5 h-5 bg-gold rounded-full inline-block"></span>
+                                        <span class="text-ink font-medium">{{ $enrollment->student->name }}</span>
+                                    </div>
+                                    @if(auth()->user()->role === 'admin')
+                                        <form action="{{ route('enrollments.destroy', $enrollment) }}" method="POST"
+                                              onsubmit="return confirm('Remove this student?');">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="text-sm text-marked hover:underline">Remove</button>
+                                        </form>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>
                     @endif
 
-                    @if ($students->isNotEmpty())
-                        <form action="{{ route('enrollments.store', $subject) }}" method="POST" class="flex items-center gap-2">
+                    {{-- Admin: direct enroll --}}
+                    @if(auth()->user()->role === 'admin' && $students->isNotEmpty())
+                        <form action="{{ route('enrollments.store', $subject) }}" method="POST"
+                              class="flex items-center gap-2 mt-4">
                             @csrf
-                            <select name="student_id" class="border rounded px-2 py-1" required>
+                            <select name="student_id"
+                                    class="border border-gray-300 rounded px-3 py-1.5 text-sm text-ink focus:outline-none focus:border-gold">
                                 <option value="" disabled selected>Select a student</option>
                                 @foreach ($students as $student)
                                     <option value="{{ $student->id }}">{{ $student->name }}</option>
                                 @endforeach
                             </select>
-                            <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Enroll</button>
+                            <button type="submit"
+                                    class="bg-ink text-white text-sm px-4 py-1.5 rounded hover:bg-ink/80 transition">
+                                Enroll
+                            </button>
                         </form>
-                    @else
-                        <p class="text-gray-500">All students are already enrolled.</p>
+                    @elseif(auth()->user()->role === 'admin')
+                        <p class="text-slate text-sm mt-4">All students are already enrolled or have pending requests.</p>
+                    @endif
+
+                    {{-- Student: request enrollment --}}
+                    @if(auth()->user()->role === 'student')
+                        @php
+                            $myEnrollment = $subject->enrollments->firstWhere('student_id', auth()->id());
+                        @endphp
+
+                        @if(!$myEnrollment)
+                            <form action="{{ route('enrollments.request', $subject) }}" method="POST" class="mt-4">
+                                @csrf
+                                <button type="submit"
+                                        class="bg-ink text-white text-sm px-4 py-1.5 rounded hover:bg-ink/80 transition">
+                                    Request Enrollment
+                                </button>
+                            </form>
+                        @elseif($myEnrollment->status === 'pending')
+                            <p class="text-slate text-sm mt-4">⏳ Your enrollment request is pending approval.</p>
+                        @elseif($myEnrollment->status === 'rejected')
+                            <p class="text-marked text-sm mt-4">✕ Your enrollment request was rejected.</p>
+                        @endif
                     @endif
                 </div>
 
-                <a href="{{ route('subjects.index') }}" class="text-indigo-600 hover:underline">
-                    ← Back to Subjects
-                </a>
-
             </div>
+
+            <a href="{{ route('subjects.index') }}" class="text-sm text-slate hover:text-ink transition">
+                ← Back to Subjects
+            </a>
+
         </div>
     </div>
 </x-app-layout>
