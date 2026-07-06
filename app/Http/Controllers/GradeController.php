@@ -39,8 +39,13 @@ class GradeController extends Controller
             'feedback.*' => 'nullable|string|max:1000',
         ]);
 
+        $submissions = Submission::where('task_id', $task->id)
+            ->get()
+            ->keyBy('student_id');
+
         foreach ($validated['scores'] as $studentId => $score) {
             if ($score === null) continue; 
+            if (!isset($submissions[$studentId])) continue;
 
             Grade::updateOrCreate(
                 ['task_id' => $task->id, 'student_id' => $studentId],
