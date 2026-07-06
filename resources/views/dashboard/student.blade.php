@@ -3,7 +3,7 @@
         <h2 class="font-serif font-bold text-2xl text-ink leading-tight">
             My Dashboard
         </h2>
-    </x-slot>
+    </x-slot>   
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -48,20 +48,51 @@
                             @else
                                 <ul class="divide-y divide-gray-100 ml-4">
                                     @foreach ($subject->tasks->sortBy('due_date') as $task)
-                                        @php $overdue = $task->due_date && now()->startOfDay()->gt($task->due_date); @endphp
-                                        <li class="py-2 flex justify-between items-center">
-                                            <div>
-                                                <a href="{{ route('tasks.submissions.edit', $task) }}"
-                                                   class="font-medium text-ink hover:text-gold transition">
-                                                    {{ $task->title }}
-                                                </a>
-                                                @if($task->description)
-                                                    <p class="text-sm text-slate">{{ $task->description }}</p>
-                                                @endif
+                                        @php
+                                            $overdue = $task->due_date && now()->startOfDay()->gt($task->due_date);
+                                            $grade = $task->grades->firstWhere('student_id', auth()->id());
+                                            $passed = $grade && $grade->score >= 50;
+                                        @endphp
+                                        <li class="py-3 space-y-1">
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <p class="font-medium text-ink">{{ $task->title }}</p>
+                                                    @if($task->description)
+                                                        <p class="text-sm text-slate">{{ $task->description }}</p>
+                                                    @endif
+                                                    <div class="flex gap-3 mt-1">
+                                                        <a href="{{ route('tasks.show', $task) }}"
+                                                        class="text-xs text-slate hover:text-ink underline transition">
+                                                            View Details
+                                                        </a>
+                                                        <a href="{{ route('tasks.submissions.edit', $task) }}"
+                                                        class="text-xs text-gold hover:underline transition">
+                                                            Submit
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <span class="text-sm {{ $overdue ? 'text-marked font-medium' : 'text-slate' }} ml-4 shrink-0">
+                                                    Due: {{ $task->due_date?->format('M d, Y') ?? 'No due date' }}
+                                                </span>
                                             </div>
-                                            <span class="text-sm {{ $overdue ? 'text-marked font-medium' : 'text-slate' }}">
-                                                Due: {{ $task->due_date?->format('M d, Y') ?? 'No due date' }}
-                                            </span>
+
+                                            @if($grade)
+                                                <div class="mt-2 flex flex-wrap items-center gap-2">
+                                                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full border
+                                                        {{ $passed
+                                                            ? 'bg-approved/10 text-approved border-approved/30'
+                                                            : 'bg-marked/10 text-marked border-marked/30' }}">
+                                                        {{ $passed ? '✓ Passed' : '✗ Failed' }} — {{ $grade->score }}
+                                                    </span>
+                                                </div>
+                                                @if($grade->feedback)
+                                                    <p class="text-sm text-slate italic mt-1">
+                                                        "{{ $grade->feedback }}"
+                                                    </p>
+                                                @endif
+                                            @else
+                                                <span class="text-xs text-slate italic">Not yet graded</span>
+                                            @endif
                                         </li>
                                     @endforeach
                                 </ul>
