@@ -28,7 +28,7 @@ class DashboardController extends Controller
     private function studentDashboard($user)
     {
         $enrollments = $user->enrollments()
-            ->with('subject.tasks')
+            ->with('subject.tasks.grades')
             ->whereIn('status', ['approved', 'pending'])  
             ->get();
 
