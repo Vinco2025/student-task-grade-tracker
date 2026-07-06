@@ -34,7 +34,9 @@ class GradeController extends Controller
 
         $validated = $request->validate([
             'scores' => 'required|array',
-            'scores.*' => 'nullable|numeric|min:0|max:100', 
+            'scores.*' => 'nullable|numeric|min:0|max:100',
+            'feedback' => 'nullable|array',
+            'feedback.*' => 'nullable|string|max:1000',
         ]);
 
         foreach ($validated['scores'] as $studentId => $score) {
@@ -42,7 +44,10 @@ class GradeController extends Controller
 
             Grade::updateOrCreate(
                 ['task_id' => $task->id, 'student_id' => $studentId],
-                ['score' => $score]
+                [
+                    'score' => $score,
+                    'feedback' => $validated['feedback'][$studentId] ?? null,
+                ]
             );
         }
 
