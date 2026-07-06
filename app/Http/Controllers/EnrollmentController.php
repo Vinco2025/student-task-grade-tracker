@@ -18,7 +18,7 @@ class EnrollmentController extends Controller
             ->exists();
 
         if ($already) {
-            return redirect()->route('subjects.index')
+            return redirect()->route('dashboard')
                 ->with('error', 'You already have a pending or active enrollment for this subject.');
         }
 
@@ -27,7 +27,7 @@ class EnrollmentController extends Controller
             ['status' => 'pending']
         );
 
-        return redirect()->route('subjects.index')
+        return redirect()->route('dashboard')
             ->with('success', 'Enrollment request sent. Please wait for admin approval.');
     }
 
