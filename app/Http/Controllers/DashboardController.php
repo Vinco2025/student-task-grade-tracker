@@ -32,10 +32,12 @@ class DashboardController extends Controller
             ->whereIn('status', ['approved', 'pending'])  
             ->get();
 
-        $enrolledSubjectIds = $user->enrollments()->pluck('subject_id'); 
+        $excludedSubjectIds = $user->enrollments()
+            ->whereIn('status', ['approved', 'pending'])
+            ->pluck('subject_id');
 
         $availableSubjects = Subject::with('teacher')
-            ->whereNotIn('id', $enrolledSubjectIds)
+            ->whereNotIn('id', $excludedSubjectIds)
             ->get();
 
         return view('dashboard.student', compact('enrollments', 'availableSubjects'));
