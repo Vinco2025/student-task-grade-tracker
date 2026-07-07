@@ -44,7 +44,7 @@
                         <a href="{{ route('dashboard', $subject) }}" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
                             Back to Dashboard
                         </a>
-                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                        <button type="submit" class="px-4 py-2 bg-ink text-white rounded hover:bg-ink/80 transition">
                             Save Task
                         </button>
                     </div>
