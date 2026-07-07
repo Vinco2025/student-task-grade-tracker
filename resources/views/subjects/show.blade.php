@@ -10,7 +10,7 @@
 
             <x-flash-messages />
 
-            <div class="bg-white border border-gray-200 rounded-lg p-6 space-y-8">
+            <div class="bg-paper border border-slate/20 rounded-lg p-6 space-y-8">
 
                 {{-- Teacher --}}
                 <p class="text-slate text-sm uppercase tracking-wide">
@@ -28,7 +28,7 @@
                     </div>
 
                     @forelse ($subject->tasks as $task)
-                        <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                        <div class="flex items-center justify-between py-2 border-b border-slate/10 last:border-0">
                             <div class="flex items-center gap-3">
                                 <span class="w-0.5 h-5 bg-gold rounded-full inline-block"></span>
                                 <a href="{{ route('tasks.show', $task) }}"
@@ -56,7 +56,7 @@
                                 {{ $pendingEnrollments->count() }}
                             </span>
                         </div>
-                        <ul class="divide-y divide-gray-100">
+                        <ul class="divide-y divide-slate/10">
                             @foreach ($pendingEnrollments as $enrollment)
                                 <li class="flex items-center justify-between py-3">
                                     <div class="flex items-center gap-3">
@@ -89,7 +89,7 @@
                     @if($approvedEnrollments->isEmpty())
                         <p class="text-slate text-sm">No students enrolled yet.</p>
                     @else
-                        <ul class="divide-y divide-gray-100">
+                        <ul class="divide-y divide-slate/10">
                             @foreach ($approvedEnrollments as $enrollment)
                                 <li class="flex items-center justify-between py-3">
                                     <div class="flex items-center gap-3">
@@ -114,14 +114,14 @@
                               class="flex items-center gap-2 mt-4">
                             @csrf
                             <select name="student_id"
-                                    class="border border-gray-300 rounded px-3 py-1.5 text-sm text-ink focus:outline-none focus:border-gold">
+                                    class="border border-slate/30 rounded px-3 py-1.5 text-sm text-ink bg-paper focus:outline-none focus:border-gold">
                                 <option value="" disabled selected>Select a student</option>
                                 @foreach ($students as $student)
                                     <option value="{{ $student->id }}">{{ $student->name }}</option>
                                 @endforeach
                             </select>
                             <button type="submit"
-                                    class="bg-ink text-white text-sm px-4 py-1.5 rounded hover:bg-ink/80 transition">
+                                    class="bg-ink text-paper text-sm px-4 py-1.5 rounded hover:bg-gold transition-colors">
                                 Enroll
                             </button>
                         </form>
@@ -139,7 +139,7 @@
                             <form action="{{ route('enrollments.request', $subject) }}" method="POST" class="mt-4">
                                 @csrf
                                 <button type="submit"
-                                        class="bg-ink text-white text-sm px-4 py-1.5 rounded hover:bg-ink/80 transition">
+                                        class="bg-ink text-paper text-sm px-4 py-1.5 rounded hover:bg-gold transition-colors">
                                     Request Enrollment
                                 </button>
                             </form>
@@ -153,8 +153,8 @@
 
             </div>
 
-            <a href="{{ route('subjects.index') }}" class="text-sm text-slate hover:text-ink transition">
-                ← Back to Subjects
+            <a href="{{ route('dashboard') }}" class="text-sm text-slate hover:text-ink transition">
+                ← Back to Dashboard
             </a>
 
         </div>
