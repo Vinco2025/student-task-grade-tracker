@@ -127,35 +127,23 @@ All accounts use the password `password`.
 
 ## Project Structure Highlights
 
-app/
-├── Http/
-│   ├── Controllers/
-│   │   ├── DashboardController.php
-│   │   ├── SubjectController.php
-│   │   ├── TaskController.php
-│   │   ├── GradeController.php
-│   │   ├── SubmissionController.php
-│   │   ├── EnrollmentController.php
-│   │   └── UserController.php
-│   └── Middleware/
-│       └── CheckRole.php
-├── Models/
-│   ├── User.php
-│   ├── Subject.php
-│   ├── Task.php
-│   ├── Grade.php
-│   ├── Submission.php
-│   └── Enrollment.php
-resources/views/
-├── dashboard/
-│   ├── admin.blade.php
-│   ├── teacher.blade.php
-│   └── student.blade.php
-├── subjects/
-├── tasks/
-├── grades/
-├── submissions/
-└── users/
+**Controllers** — one per resource, all in `app/Http/Controllers/`
+- `DashboardController` — role-aware dashboard routing
+- `SubjectController` — full CRUD, admin-gated
+- `TaskController` — nested under subjects for creation, flat for editing
+- `GradeController` — bulk gradebook entry with feedback
+- `SubmissionController` — file upload + deadline enforcement
+- `EnrollmentController` — request/approve/reject flow
+- `UserController` — admin views for student and teacher lists
+
+**Middleware** — `app/Http/Middleware/CheckRole.php`
+Variadic role syntax: `role:teacher,admin` — applied per route group
+
+**Models** — `User`, `Subject`, `Task`, `Grade`, `Submission`, `Enrollment`
+All relationships defined with Eloquent `belongsTo` / `hasMany`
+
+**Views** — `resources/views/`
+Blade templates organized by resource (`dashboard/`, `subjects/`, `tasks/`, `grades/`, `submissions/`, `users/`)
 ---
 
 ## Key Patterns Demonstrated
