@@ -8,7 +8,7 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-paper border-l-4 border-gold overflow-hidden shadow-sm sm:rounded-lg p-6 space-y-6">
+            <div class="bg-paper border border-slate/20 overflow-hidden shadow-sm sm:rounded-lg p-6 space-y-6">
 
                 <x-flash-messages />
 
@@ -42,7 +42,7 @@
                     </div>
 
                     @if(in_array(auth()->user()->role, ['teacher', 'admin']))
-                        <ul class="divide-y divide-gold/20">
+                        <ul class="divide-y divide-slate/10">
                             @forelse ($task->grades as $grade)
                                 <li class="py-2 flex justify-between items-center">
                                     <span class="text-sm text-ink">{{ $grade->student->name }}</span>
@@ -78,15 +78,16 @@
                 </div>
 
                 {{-- Actions --}}
-                <div class="flex justify-between items-center pt-2 border-t border-gold/20">
-                    <a href="{{ route('dashboard', $task->subject) }}" class="text-sm text-gold hover:underline">
-                        ← Back to Dashboard
+                <div class="flex justify-between items-center pt-2 border-t border-slate/10">
+                    <a href="{{ route('subjects.show', $task->subject) }}"
+                       class="text-sm text-slate hover:text-ink transition-colors">
+                        ← Back to Subject
                     </a>
 
                     @if(in_array(auth()->user()->role, ['teacher', 'admin']))
                         <div class="flex gap-2">
                             <a href="{{ route('tasks.edit', $task) }}"
-                               class="px-3 py-1.5 bg-ink text-white text-sm rounded hover:bg-ink/80 transition">
+                               class="px-3 py-1.5 text-sm bg-ink text-paper rounded hover:bg-gold transition-colors">
                                 Edit
                             </a>
                             <form action="{{ route('tasks.destroy', $task) }}" method="POST"
@@ -94,7 +95,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                        class="px-3 py-1.5 bg-marked text-white text-sm rounded hover:bg-marked/80 transition">
+                                        class="px-3 py-1.5 text-sm border border-marked text-marked rounded hover:bg-marked hover:text-paper transition-colors">
                                     Delete
                                 </button>
                             </form>
