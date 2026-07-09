@@ -164,7 +164,10 @@ Blade templates organized by resource (`dashboard/`, `subjects/`, `tasks/`, `gra
 <img width="1009" height="580" alt="teacherdashboard" src="https://github.com/user-attachments/assets/854151dc-39d1-48e6-a889-753efaa5e3f5" />
 <img width="1350" height="576" alt="admindashboard" src="https://github.com/user-attachments/assets/b96e4106-41ce-457d-807f-76f7e0615d0d" />
 <img width="1347" height="597" alt="studentdashboard" src="https://github.com/user-attachments/assets/284c43bc-8bbc-4de9-bbee-e805bc8edecd" />
-
+<img width="1286" height="559" alt="profile" src="https://github.com/user-attachments/assets/3c14ad71-d84e-4092-8c40-d5116d616853" />
+<img width="1366" height="397" alt="allsubjects" src="https://github.com/user-attachments/assets/8214c464-9341-4ee4-9763-5a66adeb7647" />
+<img width="1366" height="466" alt="allteacher" src="https://github.com/user-attachments/assets/10cc05db-9328-4883-9399-526cdb5bc795" />
+<img width="999" height="575" alt="allstudent" src="https://github.com/user-attachments/assets/414674cc-cc92-4df4-a69b-5b61d7de6630" />
 
 
 
