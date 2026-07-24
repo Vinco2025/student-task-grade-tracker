@@ -43,7 +43,7 @@
 
                     <div class="flex justify-end gap-2">
                         <a href="{{ route('tasks.show', $task) }}"
-                           class="px-4 py-2 text-sm text-slate border border-slate/30 rounded hover:border-ink hover:text-ink transition-colors">
+                        class="px-4 py-2 text-sm text-slate border border-slate/30 rounded hover:border-ink hover:text-ink transition-colors">
                             Cancel
                         </a>
                         <button type="submit"

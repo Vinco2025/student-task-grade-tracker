@@ -79,19 +79,19 @@
 
                 {{-- Actions --}}
                 <div class="flex justify-between items-center pt-2 border-t border-slate/10">
-                    <a href="{{ route('subjects.show', $task->subject) }}"
-                       class="text-sm text-slate hover:text-ink transition-colors">
+                    <a href="{{ route('dashboard', $task->subject) }}"
+                    class="text-sm text-slate hover:text-ink transition-colors">
                         ← Back to Subject
                     </a>
 
                     @if(in_array(auth()->user()->role, ['teacher', 'admin']))
                         <div class="flex gap-2">
                             <a href="{{ route('tasks.edit', $task) }}"
-                               class="px-3 py-1.5 text-sm bg-ink text-paper rounded hover:bg-gold transition-colors">
+                            class="px-3 py-1.5 text-sm bg-ink text-paper rounded hover:bg-gold transition-colors">
                                 Edit
                             </a>
                             <form action="{{ route('tasks.destroy', $task) }}" method="POST"
-                                  onsubmit="return confirm('Are you sure?')">
+                                onsubmit="return confirm('Are you sure?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"

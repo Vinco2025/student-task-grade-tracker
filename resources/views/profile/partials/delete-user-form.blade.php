@@ -11,6 +11,7 @@
     <x-danger-button
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+        class="rounded-xl bg-marked px-4 py-3 text-sm font-semibold text-paper transition hover:bg-ink"
     >{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
@@ -26,17 +27,17 @@
             </p>
 
             <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only text-sm font-semibold text-ink" />
                 <x-text-input id="password" name="password" type="password"
-                    class="mt-1 block w-3/4" placeholder="{{ __('Password') }}" />
+                    class="mt-1 block w-full rounded-xl border-ink/15 bg-white px-4 py-3 text-sm text-ink shadow-sm transition focus:border-gold focus:ring-gold" placeholder="{{ __('Password') }}" />
                 <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
             </div>
 
             <div class="mt-6 flex justify-end gap-3">
-                <x-secondary-button x-on:click="$dispatch('close')">
+                <x-secondary-button x-on:click="$dispatch('close')" class="rounded-xl border-ink/15 px-4 py-3 text-sm font-semibold text-slate transition hover:border-gold hover:text-ink">
                     {{ __('Cancel') }}
                 </x-secondary-button>
-                <x-danger-button>
+                <x-danger-button class="rounded-xl bg-marked px-4 py-3 text-sm font-semibold text-paper transition hover:bg-ink">
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </div>
