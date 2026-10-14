@@ -1,9 +1,7 @@
 # Student Task & Grade Tracker
-
 A role-based academic management system built with Laravel 12. Designed as a portfolio project to demonstrate real-world Laravel patterns including middleware-gated routing, Eloquent relationships, form validation, file uploads, and a consistent design system.
 
 ---
-
 ## Features
 
 ### Admin
@@ -28,7 +26,6 @@ A role-based academic management system built with Laravel 12. Designed as a por
 ---
 
 ## Tech Stack
-
 | Layer | Technology |
 |---|---|
 | Framework | Laravel 12 |
@@ -43,7 +40,6 @@ A role-based academic management system built with Laravel 12. Designed as a por
 ---
 
 ## Design System
-
 The UI uses a named token system defined in `tailwind.config.js`:
 
 | Token | Hex | Usage |
@@ -58,7 +54,6 @@ The UI uses a named token system defined in `tailwind.config.js`:
 ---
 
 ## Local Setup
-
 ### Requirements
 - PHP 8.2+
 - Composer
@@ -66,7 +61,6 @@ The UI uses a named token system defined in `tailwind.config.js`:
 - MySQL (XAMPP recommended on Windows)
 
 ### Installation
-
 ```bash
 git clone https://github.com/Vinco2025/student-task-grade-tracker.git
 cd student-task-grade-tracker
@@ -111,7 +105,6 @@ php artisan serve
 ---
 
 ## Demo Accounts
-
 All accounts use the password `password`.
 
 | Role | Email |
@@ -126,7 +119,6 @@ All accounts use the password `password`.
 ---
 
 ## Project Structure Highlights
-
 **Controllers** — one per resource, all in `app/Http/Controllers/`
 - `DashboardController` — role-aware dashboard routing
 - `SubjectController` — full CRUD, admin-gated
@@ -147,7 +139,6 @@ Blade templates organized by resource (`dashboard/`, `subjects/`, `tasks/`, `gra
 ---
 
 ## Key Patterns Demonstrated
-
 - **Role-based middleware** — `CheckRole` middleware with variadic multi-role syntax (`role:teacher,admin`)
 - **Shallow nested resources** — tasks nested under subjects for creation, flat for editing
 - **Upsert logic** — `updateOrCreate` used for grades, submissions, and enrollment re-requests to prevent duplicate rows
@@ -159,7 +150,6 @@ Blade templates organized by resource (`dashboard/`, `subjects/`, `tasks/`, `gra
 ---
 
 ## Screenshots
-
 Landing Page
 
 <img width="1365" height="604" alt="landingpage" src="https://github.com/user-attachments/assets/127f9d5f-6b4f-48bb-ada0-22edc1eb74aa" />
