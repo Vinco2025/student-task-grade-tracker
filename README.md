@@ -152,7 +152,7 @@ Blade templates organized by resource (`dashboard/`, `subjects/`, `tasks/`, `gra
 ## Screenshots
 Landing Page
 
-<img width="1365" height="604" alt="landingpage" src="https://github.com/user-attachments/assets/127f9d5f-6b4f-48bb-ada0-22edc1eb74aa" />
+<img width="1901" height="977" alt="image" src="https://github.com/user-attachments/assets/8443bf0a-7606-4c71-b983-640c823f135b" />
 
 Teacher Dashboard
 
